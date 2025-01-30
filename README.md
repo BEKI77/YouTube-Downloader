@@ -9,7 +9,9 @@ This is a Django-based web application that allows users to download YouTube vid
 - Responsive design using custom CSS.
 
 ## Project Structure
+![First page](/public/Img1.png)
 
+![Search Result](/public/Img2.png)
 
 
 ## Installation
