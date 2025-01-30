@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}" >
+</head>
+<body>
+    <nav>
+        <div class="logo">YTD</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+    <main>
+        <div class="gradient-bg"></div>
+        <div class="content">
+            {% if message %}
+                <p style="color: green;">{{ message }}</p>
+            {% endif %}
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <h1>Download Youtube<br>Video by Link!</h1>
+            
+            {% if not formats %}
+                <form method="post"> 
+                    {% csrf_token %} 
+                    <div class="input-group">
+                        <span class="link-icon">🔗</span>
+                        <input type="text" id="link" name="link" placeholder="Paste link here!">
+                    </div>
+                    <div class="buttons" >
+                        <button class="btn btn-primary" type="submit" value="Submit">Search</button>
+                    </div>
+                </form> 
+            {% else %}
+               <form method="POST" class="format-selector">
+                {% csrf_token %} 
+                <input type="hidden" name="link" value="{{ link }}">
+                <label>Select a format:</label>
+                <div class="format-list">
+                    {% for f in formats %}
+                        <div class="format-option">
+                            <input type="radio" name="format_id" id="format_{{ f.format_id }}" value="{{ f.format_id }}">
+                            <label for="format_{{ f.format_id }}">
+                                <span class="format-id">Format {{ f.format_id }}</span>
+                                <span class="format-ext">{{ f.ext }}</span>
+                                <span class="format-resolution">{{ f.resolution }}</span>
+                                <span class="format-fps">{{ f.fps }} FPS</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">Download</button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
+
+
+
